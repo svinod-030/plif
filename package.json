@@ -10,8 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.14.1",
     "react": "18.2.0",
     "react-native": "0.74.2",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-markdown-display": "^7.0.2",
     "react-native-svg": "^15.3.0"
   },
   "devDependencies": {
