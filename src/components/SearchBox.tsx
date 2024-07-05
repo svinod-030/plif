@@ -2,7 +2,7 @@ import {StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import React from "react";
 import { ArrowRight } from "../assets/ArrowRight";
 import {Colors} from "react-native/Libraries/NewAppScreen";
-import LoadingCircles from "../assets/LoadingCircles";
+import LottieView from "lottie-react-native";
 
 export const SearchBox = ({onSearch, searchInProgress}): React.JSX.Element => {
     const [text, onChangeText] = React.useState();
@@ -14,7 +14,6 @@ export const SearchBox = ({onSearch, searchInProgress}): React.JSX.Element => {
             value={text}
             placeholder={"Start typing...!"}
         />
-        {searchInProgress ? <LoadingCircles /> : null}
         <TouchableOpacity
             disabled={searchInProgress}
             style={styles.submit}

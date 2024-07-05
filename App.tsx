@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     Dimensions,
     SafeAreaView,
@@ -21,12 +21,14 @@ import {SearchBox} from "./src/components/SearchBox";
 import {Section} from "./src/components/Section";
 import {GoogleGenerativeAI} from "@google/generative-ai";
 import Markdown from 'react-native-markdown-display';
+import LottieView from "lottie-react-native";
 
 function App(): React.JSX.Element {
   const {height} = useWindowDimensions();
-  const [aiResponse, setAiResponse] = useState<string>("**Hello There! Let's talk!**");
+  const [aiResponse, setAiResponse] = useState<string>("I am Gemini, a multimodal AI model, developed by Google. I am designed to provide information and assist users with a wide range of topics and tasks.");
   const [searchInProgress, setSearchInProgress] = useState<boolean>(false);
-  const geminiProModel = useRef(new GoogleGenerativeAI("").getGenerativeModel({ model: "gemini-pro"}));
+  const geminiProModel = useRef(new GoogleGenerativeAI("")
+      .getGenerativeModel({ model: "gemini-pro"}));
 
     const onSearch = async (prompt) => {
         if(prompt === undefined || prompt === null) {
@@ -46,7 +48,8 @@ function App(): React.JSX.Element {
             setAiResponse("Error Response for prompt '" + prompt + "' -: " + e);
         }
         setSearchInProgress(false);
-  }
+    }
+
   const backgroundStyle = {
     backgroundColor: Colors.darker,
   };
@@ -55,7 +58,7 @@ function App(): React.JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={{...backgroundStyle, minHeight: height}}>
+        style={{...backgroundStyle}}>
           <View style={{ backgroundColor: Colors.black }}>
             <Section title="Plif">
               <Text style={{ color: Colors.lighter }}>
@@ -63,11 +66,15 @@ function App(): React.JSX.Element {
               </Text>
             </Section>
           </View>
-        <ScrollView style={{...styles.responseContainer, maxHeight: (height-210), overflow: "scroll"}}>
-            <Markdown style={markdownStyles}>
-                {aiResponse}
-            </Markdown>
-        </ScrollView>
+        <View style={{...styles.responseContainer}}>
+            {searchInProgress
+                ? <LottieView autoPlay loop style={styles.loading}
+                      source={require('./src/assets/Lottie/Loading.json')}/>
+                : (<Markdown style={markdownStyles}>
+                    {aiResponse}
+                    </Markdown>)
+            }
+        </View>
         <SearchBox onSearch={onSearch} searchInProgress={searchInProgress}/>
       </ScrollView>
     </SafeAreaView>
@@ -80,6 +87,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: Colors.dark,
   },
+    loading: {
+      height: 100,
+      width: 100,
+      alignSelf: "center"
+    }
 });
 
 const markdownStyles = StyleSheet.create({
