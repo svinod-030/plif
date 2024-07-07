@@ -2,9 +2,12 @@ import {StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import React from "react";
 import { ArrowRight } from "../assets/ArrowRight";
 import {Colors} from "react-native/Libraries/NewAppScreen";
-import LottieView from "lottie-react-native";
+import {Camera} from "../assets/Camera";
+import {Gallery} from "../assets/Gallery";
+import {CAMERA_SOURCE, GALLERY_SOURCE} from "../constants/index";
 
-export const SearchBox = ({onSearch, searchInProgress}): React.JSX.Element => {
+
+export const SearchBox = ({onSearch, onSearchWithImage, searchInProgress}): React.JSX.Element => {
     const [text, onChangeText] = React.useState();
 
     return <View style={styles.container}>
@@ -14,6 +17,24 @@ export const SearchBox = ({onSearch, searchInProgress}): React.JSX.Element => {
             value={text}
             placeholder={"Start typing...!"}
         />
+        <TouchableOpacity
+            disabled={searchInProgress}
+            style={styles.submit}
+            onPress={() => onSearchWithImage(CAMERA_SOURCE)}>
+            <Camera
+                height={"20px"}
+                width={"20px"}
+            />
+        </TouchableOpacity>
+        <TouchableOpacity
+            disabled={searchInProgress}
+            style={styles.submit}
+            onPress={() => onSearchWithImage(GALLERY_SOURCE)}>
+            <Gallery
+                height={"20px"}
+                width={"20px"}
+            />
+        </TouchableOpacity>
         <TouchableOpacity
             disabled={searchInProgress}
             style={styles.submit}
